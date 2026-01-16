@@ -15,6 +15,9 @@ Do not add a period at the end of the subject line.
 Prefer short, direct sentences.
 Avoid robotic or overly formal language.
 If the change is trivial, keep the message casual and concise.
+If the commit message body is long or detailed, use bullet points (with '-') for each explanation or change, e.g.:
+  - add this feat in x component
+  - remove this component from this feat
 Do not use phrases like "This commit" or "AI-generated".
 Make the message sound like it was written by a thoughtful, but relaxed, human developer.`;
   const maybeHumanHint = humanLikeCommit ? humanHint : "";
