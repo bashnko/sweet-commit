@@ -1,6 +1,6 @@
 {
   "name": "sweet-commit",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "AI-powered commit messages that just work. One command, perfect commits, every time.",
   "main": "index.js",
   "type": "module",
@@ -22,7 +22,7 @@
     "developer-tools"
   ],
   "author": "nhdfr",
-  "license": "ISC",
+  "license": "GNU General Public License v3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/nhdfr/sweet-commit.git"
