@@ -15,66 +15,83 @@ npm install -g sweet-commit
 To update to the latest version:
 
 ```bash
-npm update -g sweet-commit
+scom update
 ```
 
 Check your current version:
+
 ```bash
-npm list -g sweet-commit
+scom -v
 ```
 
 ## Usage
 
-1. Generate and commit (will prompt to stage if needed):
-   ```bash
-   scom
-   ```
+### Basic usage
 
-The tool will:
-- Check for unstaged changes and offer to stage them automatically
-- Analyze your changes using AI
-- Generate 3 different commit message options with colored headings
-- Let you choose your preferred message
-- Commit after confirmation
+Generate and commit (will prompt to stage if needed):
+
+```bash
+scom
+```
+
+You can also specify the commit style directly with a flag. For example:
+
+```bash
+scom -s       # Short commit message
+scom --adaptive   # Adaptive commit message
+scom -d       # Detailed commit message
+```
+
+### Commit style flags
+
+You can control the commit message style directly from the CLI:
+
+- `scom --short` or `scom -s` — Short, conventional commit message
+- `scom --adaptive` or `scom -a` — Adaptive (short for simple, detailed for complex)
+- `scom --detailed` or `scom -d` — Fully detailed, multi-line commit message
+
+> **Note:** CLI flags always override your config file's default style.
+
+### What happens
+
+- Checks for unstaged changes and offers to stage them automatically
+- Analyzes your changes using AI
+- Generates a commit message in your chosen style
+- Lets you confirm or regenerate the message
+- Commits after confirmation
 
 ## Setup
 
-Get your Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey) and configure it:
+1. Get your Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+2. Run the setup command:
 
-**Option 1: .env file (Recommended)**
-Create a `.env` file in your project:
-```
-GEMINI_API_KEY=your-api-key-here
-```
+   ```bash
+   scom setup
+   ```
 
-**Option 2: Environment variable**
-```bash
-export GEMINI_API_KEY="your-api-key-here"
-```
+3. Follow the prompts to enter your API key. That's it!
 
-**Option 3: Permanent setup (Not recommended)**
-Add to your shell profile for system-wide access:
+### About the .scom.conf file
 
-For bash users:
-```bash
-echo 'export GEMINI_API_KEY="your-api-key-here"' >> ~/.bashrc
-source ~/.bashrc
-```
+When you run `scom setup`, a `.scom.conf` file is created in your config directory (e.g. `~/.config/.scom.conf` and inside `APPDATA` for windows).
 
-For zsh users:
-```bash
-echo 'export GEMINI_API_KEY="your-api-key-here"' >> ~/.zshrc
-source ~/.zshrc
-```
+- This file securely stores your Gemini API key and other configuration options, such as your default commit style.
+- You can edit this file manually if you want to change your API key or set a different default commit style (e.g., `adaptive`, `short`, or `detailed`).
+- Example `.scom.conf`:
 
-**Warning:** This stores your API key permanently in your shell profile. Only use this if you understand the security implications and are on a personal, secure machine.
+  ```ini
+  apiKey=your-gemini-api-key
+  humanLikeCommit=true
+  defaultCommitStyle=adaptive
+  ```
+
+> **Note:** CLI flags (like `--short`, `--adaptive`, `--detailed`) always override the style set in `.scom.conf` for a single run.
 
 ## Features
 
-- **Multiple commit message options**: Generate 3 variations with different perspectives and detail levels
+- **Flexible commit styles**: Use CLI flags to choose short, adaptive, or detailed commit messages on demand
 - **Auto-stage prompt**: Automatically offers to stage unstaged changes
 - **Intelligent message generation**: Comprehensive bodies for complex changes, concise for simple ones
-- **Automatic analysis**: Analyzes staged git changes with smart optimization for large changesets
 - **Conventional commits**: Follows best practices and conventional commit format
 - **Gemini AI powered**: Uses latest Gemini AI for intelligent commit message creation
 - **Clean interface**: Minimal, beautiful CLI with no unnecessary output
