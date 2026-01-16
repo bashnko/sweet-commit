@@ -7,7 +7,16 @@ export async function generateCommitMessage(
   humanLikeCommit = true,
 ) {
   let prompt;
-  const humanHint = `\n- Make the commit message sound natural and human, as if written by a thoughtful developer.\n- Avoid robotic, formulaic, or overly formal language.\n- Do not use phrases like 'This commit' or 'AI-generated'.\n- Be concise, clear, and friendly.`;
+  let humanHint = `\nWrite commit messages like a real developer:
+After the colon in the subject (e.g., "feat(scope): description"), always start the description with a lowercase letter, not uppercase. For example, use "feat(core): add new feature" instead of "feat(core): Add new feature".
+Avoid perfect grammar; be a bit informal and natural.
+Use contractions (don't, can't, it's) where appropriate.
+Do not add a period at the end of the subject line.
+Prefer short, direct sentences.
+Avoid robotic or overly formal language.
+If the change is trivial, keep the message casual and concise.
+Do not use phrases like "This commit" or "AI-generated".
+Make the message sound like it was written by a thoughtful, but relaxed, human developer.`;
   const maybeHumanHint = humanLikeCommit ? humanHint : "";
   if (style === "short") {
     prompt = `Generate a short, conventional commit message for the following git diff.\n- Use conventional commit format: type(scope): description\n- Keep the subject line under 72 characters.\n- No body unless absolutely necessary.\n- Use imperative mood.\n- No markdown, just plain text.${maybeHumanHint}\n\nGit diff:\n${diff}`;

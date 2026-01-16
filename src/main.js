@@ -49,7 +49,11 @@ export async function main() {
       `${fileStats.filter((f) => f.status === "D").length} deleted`,
     "Changeset Overview",
   );
-  const diff = await getStagedDiff();
+  let diff = await getStagedDiff();
+  const diffLines = diff.split('\n');
+  if (diffLines.length > 200) {
+    diff = diffLines.slice(0, 200).join('\n') + '\n...diff truncated...';
+  }
 
   if (!commitStyle) {
     commitStyle = await selectCommitStyle();
