@@ -5,12 +5,7 @@ import {
   commitChanges,
 } from "./git.js";
 import { generateCommitMessage } from "./ai.js";
-import {
-  selectCommitStyle,
-  confirmCommit,
-  askGenerateOther,
-  p,
-} from "./prompts.js";
+import { selectCommitStyle, p } from "./prompts.js";
 import { loadConfig } from "./utils.js";
 
 export async function main() {
@@ -38,7 +33,7 @@ export async function main() {
   }
   const humanLikeCommit =
     config.humanLikeCommit !== undefined ? config.humanLikeCommit : true;
-  let commitStyle = config.defaultCommitStyle;
+  let commitStyle = process.env.SCOM_STYLE || config.defaultCommitStyle;
 
   await checkStagedChanges(p);
   const fileStats = await getFileStats();
