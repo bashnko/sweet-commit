@@ -10,6 +10,17 @@ AI-powered commit messages that just work. One command, perfect commits, every t
 npm install -g sweet-commit
 ```
 
+## Setup
+
+1. Get your Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+2. Run the setup command:
+
+   ```bash
+   scom setup
+   ```
+
+3. Follow the prompts to enter your API key. That's it!
+
 ## Update
 
 To update to the latest version:
@@ -59,17 +70,6 @@ You can control the commit message style directly from the CLI:
 - Generates a commit message in your chosen style
 - Lets you confirm or regenerate the message
 - Commits after confirmation
-
-## Setup
-
-1. Get your Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
-2. Run the setup command:
-
-   ```bash
-   scom setup
-   ```
-
-3. Follow the prompts to enter your API key. That's it!
 
 ### About the .scom.conf file
 
