@@ -19,17 +19,15 @@ export async function selectCommitStyle() {
   });
 }
 
-export async function confirmCommit() {
-  return await p.confirm({
-    message: "Commit with this message?",
-    initialValue: true,
-  });
-}
-
-export async function askGenerateOther() {
-  return await p.confirm({
-    message: "Generate another message?",
-    initialValue: false,
+export async function selectAiAgent(agents, initialValue) {
+  return await p.select({
+    message: "Which AI agent do you want to use?",
+    initialValue,
+    options: agents.map((agent) => ({
+      value: agent.name,
+      label: `${agent.name} (${agent.provider})`,
+      hint: agent.model,
+    })),
   });
 }
 
