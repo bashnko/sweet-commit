@@ -15,9 +15,9 @@ npm install -g sweet-commit
 1. Get your Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
 2. Run the setup command:
 
-   ```bash
-   scom setup
-   ```
+    ```bash
+    scom setup
+    ```
 
 3. Follow the prompts to enter your API key. That's it!
 
@@ -79,11 +79,11 @@ When you run `scom setup`, a `.scom.conf` file is created in your config directo
 - You can edit this file manually if you want to change your API key or set a different default commit style (e.g., `adaptive`, `short`, or `detailed`).
 - Example `.scom.conf`:
 
-  ```ini
-  apiKey=your-gemini-api-key
-  humanLikeCommit=true
-  defaultCommitStyle=adaptive
-  ```
+    ```ini
+    apiKey=your-gemini-api-key
+    humanLikeCommit=true
+    defaultCommitStyle=adaptive
+    ```
 
 > **Note:** CLI flags (like `--short`, `--adaptive`, `--detailed`) always override the style set in `.scom.conf` for a single run.
 

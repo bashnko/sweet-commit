@@ -1,43 +1,44 @@
 {
-  "name": "sweet-commit",
-  "version": "2.2.3",
-  "description": "AI-powered commit messages that just work. One command, perfect commits, every time.",
-  "main": "index.js",
-  "type": "module",
-  "bin": {
-    "scom": "./index.js"
-  },
-  "preferGlobal": true,
-  "scripts": {
-    "format:check": "prettier --check .",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "git",
-    "sweet-commit",
-    "commit",
-    "conventional-commits",
-    "ai",
-    "gemini",
-    "cli",
-    "automation",
-    "developer-tools"
-  ],
-  "author": "bashneko",
-  "license": "GNU General Public License v3.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bashnko/sweet-commit.git"
-  },
-  "homepage": "https://github.com/bashnko/sweet-commit",
-  "bugs": {
-    "url": "https://github.com/bashnko/sweet-commit/issues"
-  },
-  "dependencies": {
-    "@clack/prompts": "^0.11.0",
-    "@google/genai": "^1.25.0"
-  },
-  "devDependencies": {
-    "prettier": "^3.8.3"
-  }
+    "name": "sweet-commit",
+    "version": "2.2.3",
+    "description": "AI-powered commit messages that just work. One command, perfect commits, every time.",
+    "main": "index.js",
+    "type": "module",
+    "bin": {
+        "scom": "./index.js"
+    },
+    "preferGlobal": true,
+    "scripts": {
+        "format:check": "prettier --check .",
+        "format": "prettier --write .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "git",
+        "sweet-commit",
+        "commit",
+        "conventional-commits",
+        "ai",
+        "gemini",
+        "cli",
+        "automation",
+        "developer-tools"
+    ],
+    "author": "bashneko",
+    "license": "GNU General Public License v3.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bashnko/sweet-commit.git"
+    },
+    "homepage": "https://github.com/bashnko/sweet-commit",
+    "bugs": {
+        "url": "https://github.com/bashnko/sweet-commit/issues"
+    },
+    "dependencies": {
+        "@clack/prompts": "^0.11.0",
+        "@google/genai": "^1.25.0"
+    },
+    "devDependencies": {
+        "prettier": "^3.8.3"
+    }
 }
