@@ -9,10 +9,12 @@
   },
   "preferGlobal": true,
   "scripts": {
+    "format:check": "prettier --check .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "git",
+    "sweet-commit",
     "commit",
     "conventional-commits",
     "ai",
@@ -21,18 +23,21 @@
     "automation",
     "developer-tools"
   ],
-  "author": "nhdfr",
+  "author": "bashneko",
   "license": "GNU General Public License v3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nhdfr/sweet-commit.git"
+    "url": "https://github.com/bashnko/sweet-commit.git"
   },
-  "homepage": "https://github.com/nhdfr/sweet-commit",
+  "homepage": "https://github.com/bashnko/sweet-commit",
   "bugs": {
-    "url": "https://github.com/nhdfr/sweet-commit/issues"
+    "url": "https://github.com/bashnko/sweet-commit/issues"
   },
   "dependencies": {
     "@clack/prompts": "^0.11.0",
     "@google/genai": "^1.25.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3"
   }
 }
