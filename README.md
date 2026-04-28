@@ -2,109 +2,147 @@
 
 [![npm version](https://img.shields.io/npm/v/sweet-commit)](https://www.npmjs.com/package/sweet-commit)
 
-AI-powered commit messages that just work. One command, perfect commits, every time.
+commit messages that just work. One command, perfect commits, every time.
+
+> [!WARNING]
+> If you already use `scom` and update to the latest version, your existing config may break.
+> Re-run `scom setup` to migrate or recreate your configuration.
 
 ## Installation
 
+> [!CAUTION]
+> Due to uncretain NPM issues I had to migrate the package. (under the same name)
+> 24 hours for the old package to be unpublished, and new versions to be published under the same name.
+> If you have trouble installing, please wait a bit and try again.
+> Set up manually if you want to get started right away, instructions below.
+
+```bash
+
+## via npm
+
+Install globally (recommended) or run with `npx`:
+
 ```bash
 npm install -g sweet-commit
+# or
+npx sweet-commit
+```
+
+## manually
+
+```bash
+## clone the repo :
+git clone https://github.com/bashnko/sweet-commit.git
+
+## intall dependencies
+npm i
+
+## link the package globally
+npm link
 ```
 
 ## Setup
 
-1. Get your Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
-2. Run the setup command:
+Keep your API keys ready: a primary API key and an optional fallback key (recommended).
+The fallback is used only if the primary provider fails.
 
-    ```bash
-    scom setup
-    ```
+Recommended free/accessible providers:
 
-3. Follow the prompts to enter your API key. That's it!
+- Groq: https://console.groq.com/
+- Gemini: https://aistudio.google.com/
 
-## Update
-
-To update to the latest version:
+Run the interactive setup:
 
 ```bash
-scom update
+scom setup
 ```
 
-Check your current version:
-
-```bash
-scom -v
-```
+You will be asked to choose a primary agent and an optional fallback agent.
 
 ## Usage
 
-### Basic usage
-
-Generate and commit (will prompt to stage if needed):
+Make some changes in your project, stage the files you want to include, and run:
 
 ```bash
 scom
 ```
 
-You can also specify the commit style directly with a flag. For example:
+`scom` reads the staged diff, generates a commit message, and then lets you confirm or regenerate before it commits.
 
-```bash
-scom -s       # Short commit message
-scom --adaptive   # Adaptive commit message
-scom -d       # Detailed commit message
+You can also control the output style when you run it:
+
+- `scom -s` or `scom --short` for a short commit message
+- `scom -a` or `scom --adaptive` for adaptive output
+- `scom -d` or `scom --detailed` for a detailed commit message
+
+## Config file
+
+Setup writes a simple key=value config file named `.scom.conf`.
+
+<details>
+<summary>Config file path</summary>
+
+Default locations for the config file:
+
+- Linux/macOS (XDG): `$XDG_CONFIG_HOME/sweet-commit/.scom.conf` or `~/.config/sweet-commit/.scom.conf`
+- macOS (fallback): `~/Library/Application Support/sweet-commit/.scom.conf`
+- Windows: `%APPDATA%\sweet-commit\.scom.conf`
+
+You can override the location with environment variables:
+
+- `SCOM_CONFIG=/absolute/path/to/.scom.conf` (use a full file path)
+- `SCOM_CONFIG_DIR=/absolute/path/to/config-dir` (writes `.scom.conf` in that directory)
+
+</details>
+
+Default settings written by the setup:
+
+- `humanLikeCommit`: `true`
+- `defaultCommitStyle`: `adaptive`
+
+Available commit styles:
+
+- `short`
+- `detailed`
+- `adaptive`
+
+## Available commands
+
+- `scom` — generate a commit message from staged changes and commit
+- `scom setup` — interactive setup for providers and keys
+- `scom config` — show active config path and values
+- `scom --agent <name>` — run using a specific configured agent
+- `scom --short` / `-s` — force short one-line commit
+- `scom --detailed` / `-d` — force detailed commit
+- `scom --adaptive` / `-a` — adaptive style (default)
+- `scom --version` / `-v` — show version
+
+## Changing models
+
+Run `scom model` to open the interactive model chooser.
+
+This command updates your global primary and fallback models, then saves them back to your config file.
+It uses the API keys already stored in your config when they are available.
+This command assumes you aleady have the API keys set, so it won't ask for them again.
+If you want to change the keys, you can edit the config file directly or re-run `scom setup`.
+
+## Example config (.scom.conf)
+
+The setup writes a `.scom.conf` file in key=value format. Example content:
+
+```ini
+GEMINI_API_KEY=your-gemini-key
+GROQ_API_KEY=your-groq-key
+DEEPSEEK_API_KEY=your-deepseek-key
+DEFAULT_MODEL=gemini-2.5-flash
+FALLBACK_MODEL=
+BASE_URL=
+humanLikeCommit=true
+defaultCommitStyle=adaptive
 ```
 
-### Commit style flags
+## Feature requests
 
-You can control the commit message style directly from the CLI:
+Please open feature requests or bug reports on the project's GitHub repository (create a new issue with a clear title and reproduction steps).
 
-- `scom --short` or `scom -s` — Short, conventional commit message
-- `scom --adaptive` or `scom -a` — Adaptive (short for simple, detailed for complex)
-- `scom --detailed` or `scom -d` — Fully detailed, multi-line commit message
-
-> **Note:** CLI flags always override your config file's default style.
-
-### What happens
-
-- Checks for unstaged changes and offers to stage them automatically
-- Analyzes your changes using AI
-- Generates a commit message in your chosen style
-- Lets you confirm or regenerate the message
-- Commits after confirmation
-
-### About the .scom.conf file
-
-When you run `scom setup`, a `.scom.conf` file is created in your config directory (e.g. `~/.config/.scom.conf` and inside `APPDATA` for windows).
-
-- This file securely stores your Gemini API key and other configuration options, such as your default commit style.
-- You can edit this file manually if you want to change your API key or set a different default commit style (e.g., `adaptive`, `short`, or `detailed`).
-- Example `.scom.conf`:
-
-    ```ini
-    apiKey=your-gemini-api-key
-    humanLikeCommit=true
-    defaultCommitStyle=adaptive
-    ```
-
-> **Note:** CLI flags (like `--short`, `--adaptive`, `--detailed`) always override the style set in `.scom.conf` for a single run.
-
-## Features
-
-- **Flexible commit styles**: Use CLI flags to choose short, adaptive, or detailed commit messages on demand
-- **Auto-stage prompt**: Automatically offers to stage unstaged changes
-- **Intelligent message generation**: Comprehensive bodies for complex changes, concise for simple ones
-- **Conventional commits**: Follows best practices and conventional commit format
-- **Gemini AI powered**: Uses latest Gemini AI for intelligent commit message creation
-- **Clean interface**: Minimal, beautiful CLI with no unnecessary output
-- **Zero configuration**: Works immediately after API key setup
-- **Flexible setup**: Supports environment variables and .env files
-
-## Dependencies
-
-- @clack/prompts - Clean CLI interface
-- @google/genai - Gemini AI integration
-
-## Requirements
-
-- Node.js 20 or later
-- Git repository with staged changes
-- Gemini API key
+---
