@@ -10,14 +10,6 @@ commit messages that just work. One command, perfect commits, every time.
 
 ## Installation
 
-> [!CAUTION]
-> Due to uncretain NPM issues I had to migrate the package. (under the same name)
-> 24 hours for the old package to be unpublished, and new versions to be published under the same name.
-> If you have trouble installing, please wait a bit and try again.
-> Set up manually if you want to get started right away, instructions below.
-
-```bash
-
 ## via npm
 
 Install globally (recommended) or run with `npx`:
@@ -111,6 +103,7 @@ Available commit styles:
 - `scom` — generate a commit message from staged changes and commit
 - `scom setup` — interactive setup for providers and keys
 - `scom config` — show active config path and values
+- `scom update` — update sweet-commit to the latest version
 - `scom --agent <name>` — run using a specific configured agent
 - `scom --short` / `-s` — force short one-line commit
 - `scom --detailed` / `-d` — force detailed commit
