@@ -7,6 +7,7 @@ import {
 import { generateCommitMessage } from "./ai.js"
 import { selectCommitStyle, selectAiAgent, p } from "./prompts.js"
 import { loadConfig, resolveAiAgents } from "./utils.js"
+import { createMessageHistory } from "./history.js"
 
 export async function main() {
     process.on("SIGINT", () => {
@@ -79,8 +80,9 @@ export async function main() {
         }
     }
 
-    let message
-    while (true) {
+    const history = createMessageHistory()
+
+    const generateAndPush = async () => {
         const selectedAgent = agents.find(
             (agent) => agent.name === selectedAgentName,
         )
@@ -94,21 +96,29 @@ export async function main() {
             `Generating commit message with ${selectedAgent.name} (${selectedAgent.provider}/${selectedAgent.model})...`,
         )
         try {
-            message = await generateCommitMessage(
+            const message = await generateCommitMessage(
                 selectedAgent,
                 diff,
                 commitStyle,
                 humanLikeCommit,
             )
             spinner.stop()
+            history.push({ message, agent: selectedAgent })
         } catch (err) {
             spinner.stop("Failed to generate commit message.")
             p.cancel("Error generating commit message: " + err.message)
             process.exit(1)
         }
+    }
+
+    await generateAndPush()
+
+    while (true) {
+        const entry = history.current()
+        const { index, total } = history.position()
         p.note(
-            message,
-            `Generated commit message (${selectedAgent.name}: ${selectedAgent.provider}/${selectedAgent.model})`,
+            entry.message,
+            `Commit message ${index}/${total} (${entry.agent.name}: ${entry.agent.provider}/${entry.agent.model})`,
         )
 
         const options = [
@@ -119,6 +129,20 @@ export async function main() {
                 hint: "Regenerate message",
             },
         ]
+        if (history.hasPrev()) {
+            options.push({
+                value: "prev",
+                label: "Previous",
+                hint: "Show previous generated message",
+            })
+        }
+        if (history.hasNext()) {
+            options.push({
+                value: "next",
+                label: "Next",
+                hint: "Show next generated message",
+            })
+        }
         if (agents.length > 1) {
             options.push({
                 value: "switch-agent",
@@ -135,6 +159,23 @@ export async function main() {
             p.cancel("Operation cancelled.")
             process.exit(0)
         }
+        if (action === "okay") {
+            await commitChanges(entry.message, p)
+            p.outro("Done!")
+            break
+        }
+        if (action === "again") {
+            await generateAndPush()
+            continue
+        }
+        if (action === "prev") {
+            history.prev()
+            continue
+        }
+        if (action === "next") {
+            history.next()
+            continue
+        }
         if (action === "switch-agent") {
             const picked = await selectAiAgent(agents, selectedAgentName)
             if (p.isCancel(picked)) {
@@ -142,12 +183,8 @@ export async function main() {
                 process.exit(0)
             }
             selectedAgentName = picked
+            await generateAndPush()
             continue
-        }
-        if (action === "okay") {
-            await commitChanges(message, p)
-            p.outro("Done!")
-            break
         }
     }
 }
