@@ -24,7 +24,7 @@ npx sweet-commit
 
 ```bash
 ## clone the repo :
-git clone https://github.com/bashnko/sweet-commit.git
+git clone https://github.com/h3yng/sweet-commit.git
 
 ## intall dependencies
 npm i
